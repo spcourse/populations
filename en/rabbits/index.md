@@ -67,7 +67,7 @@ The piece of code above consists of 3 functions:
 
    3. `draw_forest()`:  displays the rabbits to the screen
 
- In our piece of code there are two lists that we'd like to use in multiple functions: `positions_rabbits_x` and `positions_rabbits_y`. These lists are used in each of the three functions: the starting positions are defined in `predator_prey()`, they're changed and then returned in the `move_rabbits()` function and are used to display the rabbits locations in `draw_forest()`. We pass the lists as arguments to the functions, and return them when we have changed their contents. You might notice that the return in `move_rabbits()` has two values separated by a comma, and that the variables are stored in much the same way. Returning and assigning multiple variables this way in Python is called _tuple unpacking_.
+ In our piece of code there are two lists that we'd like to use in multiple functions: `rabbits_position_x` and `rabbits_position_y`. These lists are used in each of the three functions: the starting positions are defined in `predator_prey()`, they're changed and then returned in the `move_rabbits()` function and are used to display the rabbits locations in `draw_forest()`. We pass the lists as arguments to the functions, and return them when we have changed their contents. You might notice that the return in `move_rabbits()` has two values separated by a comma, and that the variables are stored in much the same way. Returning and assigning multiple variables this way in Python is called _tuple unpacking_.
 
 
 ## Assignment 1: modelling the movement of rabbits
@@ -92,8 +92,8 @@ In `move_rabbits()` where you calculate the new positions of the rabbits, you'll
 Because our time steps are exactly 1 second we can then calculate the new positions as follows:
 
 {: .language-python}
-       positions_rabbits_x[rabbit] = positions_rabbits_x[rabbit] + velocity_x
-       positions_rabbits_y[rabbit] = positions_rabbits_y[rabbit] + velocity_y
+       rabbits_position_x[rabbit] = rabbits_position_x[rabbit] + velocity_x
+       rabbits_position_y[rabbit] = rabbits_position_y[rabbit] + velocity_y
 
 The code above actually read `velocity_x * dt`, but since the change in time (`dt`) is 1 second we can leave out that multiplication. This implementation allows us to give each rabbit a unique direction at the start of a simulation. Apply the above changes to your program, give each of the rabbits their own direction and run the simulation for 20 seconds instead of 10.
 
