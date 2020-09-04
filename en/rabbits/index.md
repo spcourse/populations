@@ -127,4 +127,4 @@ Edit the function `move_rabbits()` such that the rabbits will freeze in place on
 
 #### Part (1d): simulation with 25 rabbits
 
-A world with only two rabbits is not very realistic. Edit the start of `predator_prey()` such that it includes 25 rabbits in the simulation. Make sure your code generates a random position inside of the square described by $$20 < (x,y) > 30$$ for each of the rabbits. Also assign each of the rabbits a random starting direction: $$0 < $$angle$$ > 2\pi$$.
+A world with only two rabbits is not very realistic. Edit the start of `predator_prey()` such that it includes 25 rabbits in the simulation. Make sure your code generates a random position inside of the square described by $$20 < (x,y) < 30$$ for each of the rabbits. Also assign each of the rabbits a random starting direction: $$0 < $$angle$$ < 2\pi$$.
