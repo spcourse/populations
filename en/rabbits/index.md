@@ -40,20 +40,23 @@ We start out this module, against the philosophy of this course, not with an emp
 
         return rabbits_position_x, rabbits_position_y
 
+
     def draw_forest(rabbits_position_x, rabbits_position_y):
         # define the axes of the forest
         plt.axis([0, 100, 0, 100])
 
         # draw the rabbits as a blue dot
-        plt.plot(rabbits_position_x, rabbits_position_y, 'o', color = 'blue', markersize = 6)
+        plt.plot(rabbits_position_x, rabbits_position_y, 'o', color='blue', markersize=6)
 
         # update the frames for a simple animation
         plt.draw()
         plt.pause(0.1)
         plt.clf()
 
+
     # run the simulation
     predator_prey()
+
 
 
 The piece of code above consists of 3 functions:
