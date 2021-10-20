@@ -16,13 +16,19 @@ class Field:
 
         self.creatures = []
 
-    def add_creatures(self, creature_type, number, speed=1, sight=10):
+        self.fig, (self.ax1, self.ax2) = plt.subplots(1, 2)
+        self.ax1.set_aspect('equal')
+
+        self.rabbit_history = []
+        self.fox_history = []
+
+    def add_creatures(self, Creature_type, number, speed=1, sight=10):
         for _ in range(number):
             rand_pos_x = random.uniform(0, self.width)
             rand_pos_y = random.uniform(0, self.height)
             rand_angle = random.uniform(0, 2 * math.pi)
 
-            creature = creature_type(rand_pos_x, rand_pos_y, rand_angle, speed, sight)
+            creature = Creature_type(rand_pos_x, rand_pos_y, rand_angle, speed, sight)
 
             self.creatures.append(creature)
 
@@ -39,29 +45,38 @@ class Field:
     def handle_collisions(self):
         for creature1 in self.creatures:
             for creature2 in self.creatures:
-                creature1.interacts_with(creature2)
+                if creature1.sees(creature2):
+                    creature1.interacts_with(creature2)
 
     def draw(self):
-        plt.axis([0, self.width, 0, self.height])
+        self.ax1.axis([0, self.width, 0, self.height])
 
-        location_x = []
-        location_y = []
-        colors = []
-
-        # TODO Deze naar creature zelf
         for creature in self.creatures:
-            location_x.append(creature.pos_x)
-            location_y.append(creature.pos_y)
-            colors.append(creature.color)
+            creature.draw(self.ax1)
 
-        plt.scatter(location_x, location_y, c=colors)
+        rabbit_count = 0
+        fox_count = 0
+
+        for creature in self.creatures:
+            if type(creature) is Rabbit:
+                rabbit_count += 1
+            else:
+                fox_count += 1
+
+        self.rabbit_history.append(rabbit_count)
+        self.fox_history.append(fox_count)
+
+        self.ax2.plot(range(self.iteration + 1), self.rabbit_history, '-b')
+        self.ax2.plot(range(self.iteration + 1), self.fox_history, '-r')
 
         plt.draw()
-        plt.pause(0.1)
-        plt.clf()
+        plt.pause(0.01)
+
+        self.ax1.cla()
+        self.ax2.cla()
 
     def simulate(self, iterations):
-        for i in range(iterations):
+        for self.iteration in range(iterations):
             self.step()
 
             self.draw()
@@ -76,6 +91,7 @@ class Creature:
         self.sight = sight
 
         self.alive = True
+        self.color = "black"
 
     def move(self):
         change_x = math.cos(self.angle) * self.speed
@@ -84,7 +100,7 @@ class Creature:
         self.pos_x += change_x
         self.pos_y += change_y
 
-        if not (0 <= self.pos_x <= 100):
+        if not (0 <= self.pos_x + change_x <= 100):
             self.pos_x -= change_x
 
             self.angle += math.pi
@@ -94,17 +110,21 @@ class Creature:
 
             self.angle += math.pi
 
+    def draw(self, ax):
+        ax.plot(self.pos_x, self.pos_y, 'o', c=self.color)
+
     def sees(self, creature):
-        if distance(self, creature) < self.sight and self is not creature:
+        if self is not creature and distance(self, creature) < self.sight:
             return True
         return False
 
-    def draw(self, ax):
-        pass
 
 class Rabbit(Creature):
-    color = 'blue'
-    predator = False
+    def __init__(self, *args):
+        super().__init__(*args)
+
+        self.color = 'blue'
+        self.predator = False
 
     def move(self):
         if random.random() < 0.05:
@@ -118,8 +138,11 @@ class Rabbit(Creature):
 
 
 class Fox(Creature):
-    color = 'red'
-    predator = True
+    def __init__(self, *args):
+        super().__init__(*args)
+
+        self.color = 'red'
+        self.predator = True
 
     def move(self):
         super().move()
