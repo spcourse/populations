@@ -102,6 +102,7 @@ class Creature:
     def draw(self, ax):
         pass
 
+
 class Rabbit(Creature):
     color = 'blue'
     predator = False
