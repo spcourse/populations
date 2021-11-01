@@ -66,7 +66,6 @@ class Field:
             if type(self.creatures[i]) is Rabbit:
                 self.creatures.pop()
 
-
     def resolve_deaths(self):
         for creature in self.creatures[:]:
             if not creature.alive:
@@ -208,10 +207,10 @@ class Fox(Creature):
             self.alive = False
 
     def interacts_with(self, creature):
-        if not creature.predator and self.last_eaten > 0 and creature.alive:
+        if not creature.predator and creature.alive:
             creature.alive = False
 
-            if random.random() < 0.2:
+            if random.random() < 0.15:
                 self.pregnant = True
 
             self.hungry = False
